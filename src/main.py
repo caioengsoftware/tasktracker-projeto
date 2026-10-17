@@ -1,19 +1,46 @@
 """TaskTracker - Gerenciador de tarefas em linha de comando (CLI).
 
 Bootcamp II - Fase 2 (Entrega Intermediária).
-Versão do commit 3: estrutura principal (menu e loop), sem validações.
 """
+
+PRIORIDADES_VALIDAS = {
+    "alta": "Alta",
+    "media": "Média",
+    "média": "Média",
+    "baixa": "Baixa",
+}
+
+
+# ---------------------------------------------------------------------------
+# Validações
+# ---------------------------------------------------------------------------
+def solicitar_titulo():
+    """Pede o título até receber um valor não vazio (e não só espaços)."""
+    while True:
+        titulo = input("Título: ").strip()
+        if titulo:
+            return titulo
+        print("Erro: o título é obrigatório e não pode ficar vazio.\n")
+
+
+def solicitar_prioridade():
+    """Pede a prioridade até receber Alta, Média/Media ou Baixa."""
+    while True:
+        entrada = input("Prioridade (Alta, Média ou Baixa): ").strip().lower()
+        if entrada in PRIORIDADES_VALIDAS:
+            return PRIORIDADES_VALIDAS[entrada]
+        print("Erro: prioridade inválida. Use apenas Alta, Média ou Baixa.\n")
 
 
 # ---------------------------------------------------------------------------
 # Funcionalidades
 # ---------------------------------------------------------------------------
 def cadastrar_tarefa(tarefas):
-    """Coleta os dados e adiciona uma nova tarefa à lista."""
+    """Coleta os dados, valida e adiciona uma nova tarefa à lista."""
     print("\n--- Cadastrar nova tarefa ---")
-    titulo = input("Título: ").strip()
+    titulo = solicitar_titulo()
     descricao = input("Descrição: ").strip()
-    prioridade = input("Prioridade (Alta, Média ou Baixa): ").strip()
+    prioridade = solicitar_prioridade()
     data_limite = input("Data limite (ex.: DD/MM/AAAA): ").strip()
 
     tarefa = {
