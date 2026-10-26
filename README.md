@@ -54,3 +54,36 @@ tasktracker-projeto/
 ## Observações
 
 Os dados ficam apenas em memória: ao encerrar a aplicação, as tarefas são perdidas.
+## Execução com Docker (Fase 3)
+
+### Pré-requisitos
+
+- Docker instalado e em execução
+
+### Como construir a imagem
+
+```bash
+docker build -t tasktracker-app .
+```
+
+### Como rodar o container em modo isolado
+
+```bash
+docker run -it tasktracker-app
+```
+
+A flag `-it` mantém o terminal interativo, necessário porque a CLI usa `input()`.
+
+### Como rodar via orquestração (Recomendado)
+
+```bash
+docker compose run --rm tasktracker-app
+```
+
+O `docker-compose.yml` configura `stdin_open: true` e `tty: true`, que mantêm a entrada de dados aberta e alocam um terminal virtual para o menu interativo.
+
+### Decisões técnicas
+
+- `python:3.11-slim`: imagem base leve.
+- `PYTHONUNBUFFERED=1`: saída exibida imediatamente no terminal.
+- `docker-compose.yml`: orquestra a execução interativa da CLI.
